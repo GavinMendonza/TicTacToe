@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ProfileName">
+        <item name="android:textSize">35sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="fontFamily">@font/baloo_thambi</item>
+    </style>
+
+</resources>
