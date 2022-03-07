@@ -4,9 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.tictactoe.Models.Users;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SinglePlayer extends AppCompatActivity {
 
@@ -219,6 +228,10 @@ public class SinglePlayer extends AppCompatActivity {
                 gameActive = false;
                 if (gameState[winPosition[0]] == 0) {
                     winnerStr = "You have won!! click to restart!";
+
+                    //updating score on firebase starts here
+                    updateScore();
+                    //updating score on firebase ends here
                 } else {
                     winnerStr = "Computer has won! click to restart!";
                 }
@@ -231,6 +244,32 @@ public class SinglePlayer extends AppCompatActivity {
         if (!gameActive) {
             return true;
         } else return false;
+    }
+
+    private void updateScore() { //method to update score on firebase
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://auth1-14f60-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
+        FirebaseAuth _auth = FirebaseAuth.getInstance();
+        String userId = _auth.getCurrentUser().getUid();
+
+        Task<DataSnapshot> userdata=mDatabase.child("Users").child(userId).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+                Toast.makeText(getApplicationContext(), "data read unsuccessful", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                Users _userdata=task.getResult().getValue(Users.class); //For some reason this doesnt work if it is a global variable here...
+                //your code starts here (use _userdata getters to get data)
+                int newScore=_userdata.getScore();
+                newScore=newScore+1;
+                _userdata.setScore(newScore);
+                mDatabase.child("Users").child(userId).child("score").setValue(newScore);
+
+
+                //your code ends here
+            }
+        });
+
     }
 
     public void gameReset(View view) {

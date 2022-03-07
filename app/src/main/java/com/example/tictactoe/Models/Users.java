@@ -2,9 +2,11 @@ package com.example.tictactoe.Models;
 
 public class Users {
     String userName,eMail,password,userId,profilePic;
+    int score;
 
-    public Users(String userName, String eMail, String password, String userId, String profilePic) {
+    public Users(String userName, String eMail, String password, String userId, String profilePic, int score) {
         this.userName = userName;
+        this.score=score;
         this.eMail = eMail;
         this.password = password;
         this.userId = userId;
@@ -14,10 +16,11 @@ public class Users {
     public Users(){}
     //signup constructor
 
-    public Users(String userName, String eMail, String password) {
+    public Users(String userName, String eMail, String password, int score) {
         this.userName = userName;
         this.eMail = eMail;
         this.password = password;
+        this.score=score;
     }
 
     //signup const end
@@ -61,4 +64,13 @@ public class Users {
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
 }

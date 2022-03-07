@@ -80,7 +80,8 @@ public class RegisterActivity extends AppCompatActivity {
                 _auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         //start of saving user data
-                        Users user=new Users(username,email,password);
+                        int score=0;
+                        Users user=new Users(username,email,password,score);
                         String id=task.getResult().getUser().getUid();
                         database.getReference().child("Users").child(id).setValue(user);
 
